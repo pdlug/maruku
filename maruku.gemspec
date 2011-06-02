@@ -1,5 +1,4 @@
-
-require 'lib/maruku/version'
+require File.expand_path(File.dirname(__FILE__) + '/lib/maruku/version')
 
 $spec = Gem::Specification.new do |s|
   s.name = 'maruku'
@@ -10,15 +9,14 @@ $spec = Gem::Specification.new do |s|
 	output is really beautiful!
 	}
   s.files = Dir['lib/**/*.rb'] + Dir['lib/*.rb'] + 
-	Dir['docs/*.md'] +	Dir['docs/*.html'] +
-	Dir['spec/**/*.rb'] + Dir['spec/**/*.md'] +
-          Dir['bin/*'] + ['Rakefile', 'maruku_gem.rb']
+	  Dir['docs/*.md'] +	Dir['docs/*.html'] +
+	  Dir['spec/**/*.rb'] + Dir['spec/**/*.md'] +
+    Dir['bin/*'] + ['Rakefile', 'README.markdown', 'LICENSE']
 
   s.bindir = 'bin'
   s.executables = ['maruku','marutex']
 
   s.require_path = 'lib'
-  s.autorequire = 'maruku'
 
   s.add_dependency('syntax', '>= 1.0.0')
 
@@ -26,8 +24,3 @@ $spec = Gem::Specification.new do |s|
   s.email = "andrea@rubyforge.org"
   s.homepage = "http://maruku.rubyforge.org"
 end
-
-#  s.has_rdoc = true
-#  s.extra_rdoc_files = Dir['[A-Z]*']
-#  s.rdoc_options << '--title' <<  'Builder -- Easy XML Building'
-

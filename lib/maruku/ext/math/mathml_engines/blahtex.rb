@@ -1,4 +1,3 @@
-
 require 'tempfile'
 require 'fileutils'
 require 'digest/md5'
@@ -30,7 +29,6 @@ module MaRuKu; module Out; module HTML
 				options += ("--png-directory '%s'" % get_setting(:html_png_dir))
 
 				cmd = "blahtex #{options} < #{tmp_in.path} > #{result_file}"
-				#$stderr.puts "$ #{cmd}"
         system cmd
 				tmp_in.delete
 			end
@@ -74,9 +72,8 @@ module MaRuKu; module Out; module HTML
 						f.close
 					tmp_out = Tempfile.new('maruku_blahtex')
 	
-					options = "--mathml"
+					options = "--mathml --mathml-encoding raw"
 					cmd = "blahtex #{options} < #{tmp_in.path} > #{tmp_out.path}"
-					#$stderr.puts "$ #{cmd}"
 					system cmd
 					tmp_in.delete
 					

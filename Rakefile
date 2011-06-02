@@ -1,12 +1,14 @@
 require 'rubygems'
-Gem::manage_gems
-require 'rake/gempackagetask'
+require 'bundler'
+Bundler.setup(:default, :development, :test)
 
-require 'maruku_gem'
+require 'rubygems/package_task'
+
+load 'maruku.gemspec'
 
 task :default => [:package]
 
-Rake::GemPackageTask.new($spec) do |pkg|
+Gem::PackageTask.new($spec) do |pkg|
   pkg.need_zip = true
   pkg.need_tar = true
 end
@@ -40,26 +42,31 @@ task :release => [:gem, :package] do
 end
 
 begin
-  require 'spec/rake/spectask'
+  require 'rspec/core/rake_task'
 
-  Spec::Rake::SpecTask.new
+  desc "Run unit tests"
+  RSpec::Core::RakeTask.new do |t|
+    t.pattern = 'spec/**/*_spec.rb'
+    t.rspec_opts = %w(-fs --color)
+  end
 rescue LoadError => e
 end
 
-require 'rake/rdoctask'
+begin
+  require 'rdoc/task'
 
-Rake::RDocTask.new do |rdoc|
-	files = [#'README', 'LICENSE', 'COPYING', 
-		'lib/**/*.rb', 
-		'rdoc/*.rdoc'#, 'test/*.rb'
-	]
-	rdoc.rdoc_files.add(files)
-	rdoc.main = "rdoc/main.rdoc" # page to start on
-	rdoc.title = "Maruku Documentation"
-	rdoc.template = "jamis.rb"
-	rdoc.rdoc_dir = 'doc' # rdoc output folder
-	rdoc.options << '--line-numbers' << '--inline-source'
+  desc "Generate RDoc"
+  RDoc::Task.new do |rdoc|
+	  files = ['README.markdown',
+		  'lib/**/*.rb', 
+		  'rdoc/*.rdoc'#, 'test/*.rb'
+	  ]
+	  rdoc.rdoc_files.add(files)
+	  rdoc.main = "rdoc/main.rdoc" # page to start on
+	  rdoc.title = "Maruku Documentation"
+	  rdoc.template = "jamis.rb"
+	  rdoc.rdoc_dir = 'doc' # rdoc output folder
+	  rdoc.options << '--line-numbers' << '--inline-source'
+  end
+rescue LoadError => e
 end
-
-
-
