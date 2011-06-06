@@ -79,7 +79,6 @@ module MaRuKu; module Out; module HTML
 					
 					result = nil
 					File.open(tmp_out.path) do |f| result=f.read end
-						puts result
 					
           @@BlahtexCache[tex] = result
 				end
